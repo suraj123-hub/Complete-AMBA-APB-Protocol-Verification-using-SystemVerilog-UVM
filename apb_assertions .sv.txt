@@ -1,0 +1,47 @@
+module apb_assertions (
+    input  logic        PCLK,
+    input  logic        PRESETn,
+    input  logic        PSEL,
+    input  logic        PENABLE,
+    input  logic        PWRITE,
+    input  logic        PREADY,
+    input  logic [31:0] PADDR,
+    input  logic [31:0] PWDATA
+);
+
+    default clocking cb @(posedge PCLK);
+    endclocking
+
+    default disable iff (!PRESETn);
+
+    property penable_only_with_psel;
+        PENABLE |-> PSEL;
+    endproperty
+    assert property (penable_only_with_psel);
+
+    property setup_to_access;
+        (PSEL && !PENABLE) |=> PENABLE;
+    endproperty
+    assert property (setup_to_access);
+
+    property addr_ctrl_stable_during_access;
+        (PSEL && PENABLE) |-> $stable(PADDR) && $stable(PWRITE);
+    endproperty
+    assert property (addr_ctrl_stable_during_access);
+
+    property write_data_stable;
+        (PSEL && PENABLE && PWRITE) |-> $stable(PWDATA);
+    endproperty
+    assert property (write_data_stable);
+
+    property transfer_completes_with_pready;
+        (PSEL && PENABLE) |-> ##[0:$] PREADY;
+    endproperty
+    assert property (transfer_completes_with_pready);
+
+    property penable_deassert_after_transfer;
+        (PSEL && PENABLE && PREADY) |=> !PENABLE;
+    endproperty
+    assert property (penable_deassert_after_transfer);
+
+endmodule
