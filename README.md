@@ -53,7 +53,25 @@ The verification environment models APB transactions based on the protocol speci
 - Strong understanding of AMBA APB protocol operation  
 - Hands-on experience with UVM verification architecture  
 - Practical use of SystemVerilog Assertions and functional coverage  
-- Experience in transaction-based and coverage-driven verification  
+- Experience in transaction-based and coverage-driven verification
+
+## Usage
+
+To run and analyze the APB protocol verification testbench, follow the steps below:
+
+1. Open the EDA Playground link:  
+   https://www.edaplayground.com/x/qPKu
+
+2. Click **Login** at the top right corner and create an account if you do not already have one.
+
+3. After logging in, EDA Playground may open a new workspace. Click the link again to load the provided APB testbench code.
+
+4. On the left panel, enable **“Open EPWave after run”** under *Tools & Simulators* to view simulation waveforms.
+
+5. Click **Run** to execute the testbench.
+
+By using this APB testbench, read and write operations on peripheral memory can be observed and verified through waveform analysis. This helps in identifying protocol violations or functional issues early in the verification phase, leading to a more reliable and robust design.
+
 
 ---
 
