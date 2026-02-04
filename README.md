@@ -1,2 +1,3 @@
 # Complete-AMBA-APB-Protocol-Verification-using-SystemVerilog-UVM
 Complete AMBA APB protocol verification using SystemVerilog and UVM, featuring constrained random stimulus, protocol assertions, functional coverage, and transaction-based testing for reliable read/write and timing validation.
+This project implements a UVM-based verification environment for the AMBA APB (Advanced Peripheral Bus) protocol using SystemVerilog. The environment verifies APB read and write transactions through constrained random stimulus, protocol checking using SystemVerilog assertions, and functional coverage to measure verification completeness. A complete UVM agent with sequencer, driver, monitor, and scoreboard is developed to validate protocol behavior, timing, and data integrity.
