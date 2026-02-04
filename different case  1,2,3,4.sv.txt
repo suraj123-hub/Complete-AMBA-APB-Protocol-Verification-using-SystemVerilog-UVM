@@ -1,0 +1,120 @@
+case 1
+
+ifndef GEN1
+`define GEN1
+`include "trans.sv"
+`include "generator.sv"
+class reset_check extends generator;
+  mailbox gen2drv;
+  trans tr;
+  function new(mailbox gen2drv);
+    this.gen2drv=gen2drv;
+  endfunction
+  
+  task run();
+    repeat(5)
+      begin
+        tr=new();
+        if(!tr.randomize() with {PRESETn==0;})
+          $display("Randomization Failed");
+        else
+          gen2drv.put(tr);
+      end
+  endtask 
+endclass
+`endif
+
+
+case 2
+
+ifndef GEN2
+`define GEN2
+`include "trans.sv"
+`include "generator.sv"
+
+class write_oper extends generator;
+  mailbox gen2drv;
+  trans tr;
+
+  function new(mailbox gen2drv);
+    this.gen2drv = gen2drv;
+  endfunction
+
+  task run();
+    repeat(10) begin
+      tr = new();
+      if (!tr.randomize() with { PRESETn == 1; PWRITE == 1; }) begin
+        $display("Randomization Failed");
+      end else begin
+        gen2drv.put(tr);
+        $display("[GEN] Generated WRITE Transaction: %0p", tr);
+      end
+    end
+  endtask 
+endclass
+
+`endif
+
+
+case 3
+
+`ifndef GEN3
+`define GEN3
+`include "trans.sv"
+`include "generator.sv"
+
+class read_oper extends generator;
+  mailbox gen2drv;
+  trans tr;
+
+  function new(mailbox gen2drv);
+    this.gen2drv = gen2drv;
+  endfunction
+
+  task run();
+    repeat(10) begin
+      tr = new();
+      if (!tr.randomize() with { PRESETn == 1; PWRITE == 0; }) begin
+        $display("Randomization Failed");
+      end else begin
+        gen2drv.put(tr);
+        $display("[GEN] Generated Read Transaction: %0p", tr);
+      end
+    end
+  endtask 
+endclass
+
+`endif
+
+case 4
+
+`ifndef GEN4
+`define GEN4
+`include "trans.sv"
+`include "generator.sv"
+
+class sim_rw extends generator;
+  mailbox gen2drv;
+  trans tr;
+
+  function new(mailbox gen2drv);
+    this.gen2drv = gen2drv;
+  endfunction
+
+  task run();
+    repeat(10) begin
+      tr = new();
+      if (!tr.randomize() with { PRESETn == 1;}) begin
+        $display("Randomization Failed");
+      end else begin
+        gen2drv.put(tr);
+        $display("[GEN] Generated SIM-RW Transaction: %0p", tr);
+      end
+    end
+  endtask 
+endclass
+
+`endif
+
+
+
