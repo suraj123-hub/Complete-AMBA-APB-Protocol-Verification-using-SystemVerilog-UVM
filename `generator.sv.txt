@@ -1,0 +1,12 @@
+`ifndef GEN
+`define GEN
+`include "trans.sv"
+virtual class generator;   //abstract
+  function new();
+  endfunction
+  pure virtual  task run();  //
+endclass
+`endif
+//rst=1
+//j=0;
+//k=0
